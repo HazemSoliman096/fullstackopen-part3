@@ -1,10 +1,11 @@
-const { response } = require('express');
 const express = require('express');
-const app = express();
+const morgan = require('morgan')
 
 const data = require('./data');
 
+const app = express();
 app.use(express.json());
+app.use(morgan('tiny'));
 
 app.get('/api/persons', (req, res) => res.json(data.Persons));
 
@@ -13,6 +14,8 @@ app.get('/api/persons/:id', (req, res) => {
   const person = data.Persons.filter(p => p.id === id);
   res.json(person);
 });
+
+app.get('/info', (req, res) => res.send(data.info));
 
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
@@ -40,8 +43,6 @@ app.post('/api/persons', (req, res) => {
   data.Persons.concat(person);
   res.json(person);
 });
-
-app.get('/info', (req, res) => res.send(data.info));
 
 const PORT = 3001;
 
