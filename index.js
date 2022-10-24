@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const app = express();
 
@@ -21,7 +22,21 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const person = req.body;
+
+  if (!person.name || !person.number) {
+    return res.status(400).json({
+      error: 'The name or number is missing'
+    });
+  }
+
+  if (data.Persons.map(p => p.name).includes(person.name)) {
+    return res.status(400).json({
+      error: 'The name already exists in the phonebook'
+    });
+  }
+
   person.id = Math.floor(Math.random() * ((data.Persons.length * 10) - (data.Persons.length)) + (data.Persons.length));
+
   data.Persons.concat(person);
   res.json(person);
 });
