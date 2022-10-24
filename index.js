@@ -10,6 +10,8 @@ morgan.token('body', function (req, res) { return JSON.stringify(req.body) });
 
 app.use(morgan(':method :url :response-time :body'));
 
+app.use(express.static('build'));
+
 app.get('/api/persons', (req, res) => res.json(data.Persons));
 
 app.get('/api/persons/:id', (req, res) => {
@@ -47,6 +49,6 @@ app.post('/api/persons', (req, res) => {
   res.json(person);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
