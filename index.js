@@ -49,6 +49,12 @@ app.post('/api/persons', (req, res) => {
   res.json(person);
 });
 
+app.get('/', (req, res) => {
+  res.sendFile('index.html', {
+      root: path.join(__dirname, './assets/')
+  })
+})
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
