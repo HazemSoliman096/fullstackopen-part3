@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 61
+ETag: W/"3d-DY/AaJWBMr5X2z2rUFHFJYT2lk8"
+Date: Mon, 24 Oct 2022 09:38:54 GMT
+Connection: close
+
+[{"id":4,"name":"Mary Poppendieck","number":"39-23-6423122"}]
