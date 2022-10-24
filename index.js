@@ -11,6 +11,12 @@ app.get('/api/persons/:id', (req, res) => {
   res.json(person);
 });
 
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const person = data.Persons.filter(p => p.id !== id);
+  res.status(204).end();
+});
+
 app.get('/info', (req, res) => res.send(data.info));
 
 const PORT = 3001;
