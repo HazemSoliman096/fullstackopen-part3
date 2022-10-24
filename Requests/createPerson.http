@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 56
+ETag: W/"38-fbRGxX0uk0pAvbRmbQ661VSFpVk"
+Date: Mon, 24 Oct 2022 11:24:17 GMT
+Connection: close
+
+{"name":"Ada Lovelace","number":"39-44-5323523","id":32}
