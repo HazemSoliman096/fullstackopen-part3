@@ -13,22 +13,9 @@ const port = process.env.PORT;
 
 const URL = `mongodb://${user}:${pwd}@${host}:${port}/?authMechanism=DEFAULT&authSource=${db}`;
 
-console.log(URL);
-
-const connect = async () => {
-  await mongoose.connect(URL);
-}
-
-const save = async (record) => {
-  await record.save()
-}
-
-const close = async () => {
-  await mongoose.connection.close();
-}
-
-const find = async (model) => {
-  await model.find({});
+if (process.argv.length<3) {
+  console.log('give password as argument')
+  process.exit(1)
 }
 
 const PhoneBookSchema = new mongoose.Schema({
@@ -38,9 +25,7 @@ const PhoneBookSchema = new mongoose.Schema({
 
 const PhoneBook = mongoose.model('PhoneBook', PhoneBookSchema);
 
-connect()
-  .then(console.log("connected"))
-  .catch(err => console.log(err));
+mongoose.connect(URL).catch(err => console.log(err));
 
 if (process.argv.length > 3) {
   const Person = new PhoneBook({
@@ -48,19 +33,21 @@ if (process.argv.length > 3) {
     number: process.argv[4]
   });
 
-  save(Person);
-  close();
+  Person.save().then(p => {
+    console.log('saved')
+    mongoose.connection.close();
+  });
 }
 
 if (process.argv.length < 4) {
   console.log('PhoneBook: ');
-  find(PhoneBook)
-    .then(result => {
-      Persons.forEach(p => console.log(`${p.name} ${p.number}`));
-      close();
+  PhoneBookSchema.find({})
+    .then(record => {
+      record.forEach(p => console.log(`${p.name} ${p.number}`));
+      mongoose.connection.close();
     })
     .catch(err => {
       console.log(err);
-      close();
+      mongoose.connection.close();
     })
 }
