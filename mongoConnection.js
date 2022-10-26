@@ -4,10 +4,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const user = process.env.USER;
-const pwd = process.env.PASS;
+const pwd = process.argv[2];
 const db = process.env.DB;
+const host = process.env.HOST;
+const port = process.env.PORT;
 
-const URL = `mongodb://${user}:${pwd}@localhost:27017/${db}`;
+//const URL = `mongosh://${user}:${pwd}@${host}:${port}/${db}`;
+
+const URL = `mongodb://${user}:${pwd}@${host}:${port}/?authMechanism=DEFAULT&authSource=${db}`;
 
 console.log(URL);
 
@@ -24,7 +28,7 @@ const close = async () => {
 }
 
 const find = async (model) => {
-  await model.find();
+  await model.find({});
 }
 
 const PhoneBookSchema = new mongoose.Schema({
@@ -35,22 +39,28 @@ const PhoneBookSchema = new mongoose.Schema({
 const PhoneBook = mongoose.model('PhoneBook', PhoneBookSchema);
 
 connect()
-  .then("connected")
+  .then(console.log("connected"))
   .catch(err => console.log(err));
 
-// if (process.argv.length > 3) {
-//   const Person = new PhoneBook({
-//     name: process.argv[3],
-//     number: process.argv[4]
-//   });
+if (process.argv.length > 3) {
+  const Person = new PhoneBook({
+    name: process.argv[3],
+    number: process.argv[4]
+  });
 
-//   save(Person);
-//   close();
-// }
+  save(Person);
+  close();
+}
 
-// if (process.argv.length < 4) {
-//   const Persons = find(PhoneBook);
-//   console.log('PhoneBook: ');
-//   Persons.forEach(p => console.log(`${p.name} ${p.number}`))
-//   close()
-// }
+if (process.argv.length < 4) {
+  console.log('PhoneBook: ');
+  find(PhoneBook)
+    .then(result => {
+      Persons.forEach(p => console.log(`${p.name} ${p.number}`));
+      close();
+    })
+    .catch(err => {
+      console.log(err);
+      close();
+    })
+}
