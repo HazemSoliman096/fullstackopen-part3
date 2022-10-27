@@ -11,6 +11,17 @@ morgan.token('body', function (req, res) { return JSON.stringify(req.body) });
 
 app.use(morgan(':method :url :response-time :body'));
 
+
+const errorHandler = (err, req, res, next) => {
+  console.error(err.message)
+  if (err.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' })
+  }
+  next(err)
+}
+
+app.use(errorHandler)
+
 app.get('/api/persons', (req, res) => {
   PhoneBook.find({})
     .then(phones => {
