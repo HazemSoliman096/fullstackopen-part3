@@ -1,7 +1,6 @@
 const express = require('express');
-const morgan = require('morgan')
-
-const data = require('./data');
+const morgan = require('morgan');
+const PhoneBook = require('db');
 
 const app = express();
 app.use(express.json());
@@ -12,7 +11,13 @@ app.use(morgan(':method :url :response-time :body'));
 
 app.use(express.static('assets'));
 
-app.get('/api/persons', (req, res) => res.json(data.Persons));
+app.get('/api/persons', (req, res) => {
+  PhoneBook.find({})
+    .then(phones => {
+      console.log(phones);
+      res.json(phones);
+    });
+});
 
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
@@ -45,8 +50,16 @@ app.post('/api/persons', (req, res) => {
 
   person.id = Math.floor(Math.random() * ((data.Persons.length * 10) - (data.Persons.length)) + (data.Persons.length));
 
-  data.Persons.concat(person);
-  res.json(person);
+  let record = new PhoneBook({
+    name: person.name,
+    number: person.number
+  });
+  record.save((err, data) => {
+    if(err) {
+      return console.log(err);
+    }
+    res.json(data);
+  })
 });
 
 const PORT = process.env.PORT || 3001;

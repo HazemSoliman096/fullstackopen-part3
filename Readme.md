@@ -12,3 +12,6 @@
   9. 3.9 phonebook backend step9.
   10. 3.10 phonebook backend step10.
   11. 3.11 phonebook full stack.
+  12. 3.12: Command-line database.
+  13. 3.13: Phonebook database, step1.
+  14. 3.14: Phonebook database, step2.
