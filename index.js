@@ -7,22 +7,22 @@ const app = express();
 app.use(express.static('assets'));
 app.use(express.json());
 
-morgan.token('body', function (req, res) { return JSON.stringify(req.body) });
+morgan.token('body', function (req) { return JSON.stringify(req.body); });
 
 app.use(morgan(':method :url :response-time :body'));
 
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err.message)
+  console.error(err.message);
   if (err.name === 'CastError') {
-    return res.status(400).send({ error: 'malformatted id' })
+    return res.status(400).send({ error: 'malformatted id' });
   }else if (err.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })
+    return res.status(400).json({ error: err.message });
   }
-  next(err)
-}
+  next(err);
+};
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 app.get('/api/persons', (req, res) => {
   PhoneBook.find({})
@@ -48,24 +48,24 @@ app.get('/info', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res) => {
   PhoneBook.findByIdAndRemove(req.params.id)
-  .then(result => {
-    res.status(204).end();
-  })
-  .catch(err => console.log(err));
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => console.log(err));
 });
 
 app.put('/api/persons/:id', (req, res) => {
   PhoneBook.findOneAndUpdate({_id: req.params.id}, {number: req.body.number}, 
-      {
-        new: true,
-        runValidators: true, 
-        context: 'query' 
-      }, (err, updatedDoc) => {
-    if(err) {
-      return console.log(err);
-    }
-    res.json(updatedDoc);
-});
+    {
+      new: true,
+      runValidators: true, 
+      context: 'query' 
+    }, (err, updatedDoc) => {
+      if(err) {
+        return console.log(err);
+      }
+      res.json(updatedDoc);
+    });
 });
 
 app.post('/api/persons', (req, res) => {
@@ -82,10 +82,11 @@ app.post('/api/persons', (req, res) => {
     number: person.number
   });
   record.save()
-  .then(data => res.json(data))
-  .catch(err => console.log(err));
+    .then(data => res.json(data))
+    .catch(err => console.log(err));
 });
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));

@@ -22,3 +22,4 @@
   19. 3.19*: Phonebook database, step7.
   20. 3.20*: Phonebook database, step8.
   21. 3.21 Deploying the database backend to production.
+  22. 3.22: Lint configuration.
