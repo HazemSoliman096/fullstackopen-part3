@@ -13,8 +13,17 @@ const URL= `mongodb+srv://${user}:${pwd}@fullstack.8v9soea.mongodb.net/${db}?ret
 mongoose.connect(URL).catch(err => console.log(err));
 
 const PhoneBookSchema = new mongoose.Schema({
-  name: String,
-  number: Number
+  name: {
+    type: String,
+    minLength: 3
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: function(v) {
+        return /\d{3}-\d{3}-\d{4}/.test(v);
+  }}}
 });
 
 PhoneBookSchema.set('toJSON', {

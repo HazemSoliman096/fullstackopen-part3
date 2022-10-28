@@ -19,3 +19,6 @@
   16. 3.16: Phonebook database, step4.
   17. 3.17*: Phonebook database, step5.
   18. 3.18*: Phonebook database step6.
+  19. 3.19*: Phonebook database, step7.
+  20. 3.20*: Phonebook database, step8.
+  21. 3.21 Deploying the database backend to production.

@@ -16,6 +16,8 @@ const errorHandler = (err, req, res, next) => {
   console.error(err.message)
   if (err.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
+  }else if (err.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
   next(err)
 }
@@ -53,7 +55,12 @@ app.delete('/api/persons/:id', (req, res) => {
 });
 
 app.put('/api/persons/:id', (req, res) => {
-  PhoneBook.findOneAndUpdate({_id: req.params.id}, {number: req.body.number}, {new: true}, (err, updatedDoc) => {
+  PhoneBook.findOneAndUpdate({_id: req.params.id}, {number: req.body.number}, 
+      {
+        new: true,
+        runValidators: true, 
+        context: 'query' 
+      }, (err, updatedDoc) => {
     if(err) {
       return console.log(err);
     }
@@ -74,12 +81,9 @@ app.post('/api/persons', (req, res) => {
     name: person.name,
     number: person.number
   });
-  record.save((err, data) => {
-    if(err) {
-      return console.log(err);
-    }
-    res.json(data);
-  })
+  record.save()
+  .then(data => res.json(data))
+  .catch(err => console.log(err));
 });
 
 const PORT = process.env.PORT || 3001;
