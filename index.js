@@ -31,12 +31,18 @@ app.get('/api/persons', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const person = data.Persons.filter(p => p.id === id);
-  res.json(person);
+  PhoneBook.findById({_id: req.params.id})
+    .then(person => {
+      res.json(person);
+    });
 });
 
-app.get('/info', (req, res) => res.send(data.info));
+app.get('/info', (req, res) => {
+  PhoneBook.find({})
+    .then(phones => {
+      res.send(`<p>Phonebook has info for ${phones.length} people</p><p>${new Date()}</p>`);
+    });
+});
 
 app.delete('/api/persons/:id', (req, res) => {
   PhoneBook.findByIdAndRemove(req.params.id)
