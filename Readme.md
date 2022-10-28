@@ -15,3 +15,6 @@
   12. 3.12: Command-line database.
   13. 3.13: Phonebook database, step1.
   14. 3.14: Phonebook database, step2.
+  15. 3.15: Phonebook database, step3.
+  16. 3.16: Phonebook database, step4.
+  17. 3.17*: Phonebook database, step5.

@@ -46,6 +46,15 @@ app.delete('/api/persons/:id', (req, res) => {
   .catch(err => console.log(err));
 });
 
+app.put('/api/persons/:id', (req, res) => {
+  PhoneBook.findOneAndUpdate({_id: req.params.id}, {number: req.body.number}, {new: true}, (err, updatedDoc) => {
+    if(err) {
+      return console.log(err);
+    }
+    res.json(updatedDoc);
+});
+});
+
 app.post('/api/persons', (req, res) => {
   const person = req.body;
 

@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 69
+ETag: W/"45-/wqXhQL3+C3wDcGg+yqNLYiwZZA"
+Date: Fri, 28 Oct 2022 13:34:54 GMT
+Connection: close
+
+{"name":"sama Lovelace","number":222,"id":"635b00821789b173cd66005b"}
